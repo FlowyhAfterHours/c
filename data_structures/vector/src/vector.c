@@ -173,7 +173,7 @@ int vector_pop_back(Vector* const restrict v, void* const restrict popped_elem)
 size_t vector_find(const Vector* const restrict v, const void* const restrict found_elem)
 {
   if (v == NULL || found_elem == NULL)
-    return SIZE_MAX;
+    return ELEM_NOT_FOUND;
 
   register const size_t curr_size = v->curr_size;
 
@@ -183,7 +183,7 @@ size_t vector_find(const Vector* const restrict v, const void* const restrict fo
       return i;
   }
 
-  return SIZE_MAX;
+  return ELEM_NOT_FOUND;
 }
 
 int vector_at(Vector* const restrict v, const size_t index, void* const restrict at_elem)

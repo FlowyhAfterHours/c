@@ -1,7 +1,6 @@
 #include <vector.h>
 #include <assert.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 
 static void vector_create_test(void);
@@ -459,12 +458,12 @@ static void vector_find_test(void)
     assert(vector_is_full(v) == false);
 
     size_t result = vector_find(v, NULL);
-    assert(result == SIZE_MAX);
+    assert(result == ELEM_NOT_FOUND);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
     result = vector_find(v, &(int){find_val});
-    assert(result == SIZE_MAX);
+    assert(result == ELEM_NOT_FOUND);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
@@ -478,7 +477,7 @@ static void vector_find_test(void)
     assert(vector_is_full(v) == false);
 
     size_t result = vector_find(v, NULL);
-    assert(result == SIZE_MAX);
+    assert(result == ELEM_NOT_FOUND);
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
 
@@ -492,7 +491,7 @@ static void vector_find_test(void)
     assert(vector_is_full(v) == false);
 
     size_t result = vector_find(v, &(int){17});
-    assert(result == SIZE_MAX);
+    assert(result == ELEM_NOT_FOUND);
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
 
@@ -528,7 +527,7 @@ static void vector_find_test(void)
     }
 
     size_t result = vector_find(v, &(int){21});
-    assert(result == SIZE_MAX);
+    assert(result == ELEM_NOT_FOUND);
 
     vector_destroy(v);
   }
@@ -543,12 +542,12 @@ static void vector_at_test(void)
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
-    int result = vector_at(v, SIZE_MAX, &(int){42});
+    int result = vector_at(v, ELEM_NOT_FOUND, &(int){42});
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
-    result = vector_at(v, SIZE_MAX, NULL);
+    result = vector_at(v, ELEM_NOT_FOUND, NULL);
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
@@ -562,7 +561,7 @@ static void vector_at_test(void)
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
 
-    int result = vector_at(v, SIZE_MAX, &(int){42});
+    int result = vector_at(v, ELEM_NOT_FOUND, &(int){42});
     assert(result == 1);
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
@@ -638,12 +637,12 @@ static void vector_update_test(void)
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
-    int result = vector_update(v, SIZE_MAX, &(int){42});
+    int result = vector_update(v, ELEM_NOT_FOUND, &(int){42});
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
-    result = vector_update(v, SIZE_MAX, NULL);
+    result = vector_update(v, ELEM_NOT_FOUND, NULL);
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
@@ -657,7 +656,7 @@ static void vector_update_test(void)
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
 
-    int result = vector_update(v, SIZE_MAX, &(int){42});
+    int result = vector_update(v, ELEM_NOT_FOUND, &(int){42});
     assert(result == 1);
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
@@ -734,12 +733,11 @@ static void vector_delete_test(void)
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
 
-    int result = vector_delete(v, SIZE_MAX);
+    int result = vector_delete(v, ELEM_NOT_FOUND);
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
-
-    result = vector_delete(v, SIZE_MAX);
+    result = vector_delete(v, ELEM_NOT_FOUND);
     assert(result == -1);
     assert(vector_is_empty(v) == false);
     assert(vector_is_full(v) == false);
@@ -753,7 +751,7 @@ static void vector_delete_test(void)
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
 
-    int result = vector_delete(v, SIZE_MAX);
+    int result = vector_delete(v, ELEM_NOT_FOUND);
     assert(result == 1);
     assert(vector_is_empty(v) == true);
     assert(vector_is_full(v) == false);
@@ -830,7 +828,7 @@ static void vector_delete_test(void)
     assert(vector_is_full(v) == false);
 
     size_t find_result = vector_find(v, &(int){2 * (max_size)});
-    assert(find_result == SIZE_MAX);
+    assert(find_result == ELEM_NOT_FOUND);
 
     assert(vector_get_elem_size(v) == sizeof(int));
     assert(vector_get_capacity(v) != 2 * max_size);
@@ -847,7 +845,7 @@ static void vector_delete_test(void)
 
       int to_find = (i + 1) * 2;
       find_result = vector_find(v, &(int){to_find});
-      assert(find_result == SIZE_MAX);
+      assert(find_result == ELEM_NOT_FOUND);
       (void) find_result;
 
       assert(vector_get_elem_size(v) == sizeof(int));
