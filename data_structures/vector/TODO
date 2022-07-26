@@ -1,0 +1,56 @@
+Implementation:
+  - [x] Create/Destroy
+  - [x] Getters
+  - [x] State predicates
+  - [x] Resize
+  - [x] Push_back
+  - [x] Pop_back
+  - [x] Find
+  - [x] At
+  - [x] Update
+  - [x] Delete
+  - [x] Insert
+  - [ ] Observability
+  - [ ] Observability state
+  - [ ] Result enums
+  - [ ] foreach, reduce, map macros
+  - [ ] Hash table?
+
+Tests:
+  - [x] Create/Destroy
+  - [x] Getters
+  - [x] State predicates
+  - [x] Resize
+  - [x] Push_back
+  - [x] Pop_back
+  - [x] Find
+  - [x] At
+  - [x] Update
+  - [x] Delete
+  - [x] Insert  
+  - [ ] Add observability to each checks
+  - [ ] Enums
+  - [ ] Macros
+  - [ ] Hash table?
+  - [ ] More real-life testcases
+
+Documentation:
+  - [ ] Create/Destroy
+  - [ ] Getters
+  - [ ] State predicates
+  - [ ] Resize
+  - [ ] Push_back
+  - [ ] Pop_back
+  - [ ] Find
+  - [ ] At
+  - [ ] Update
+  - [ ] Delete
+  - [ ] Insert
+  - [ ] Observability
+  - [ ] Result enums
+  - [ ] foreach, reduce, map macros
+  - [ ] Hash table?
+
+License:
+  - [ ] Add license I guess xD
+
