@@ -283,3 +283,20 @@ int vector_insert(Vector** v, size_t index, const void* restrict new_elem)
 
   return 0;
 }
+
+Vector* vector_copy(const Vector* const v)
+{
+  if (v == NULL)
+    return NULL;
+
+  register const size_t copy_size = sizeof(*v) + v->elem_size * v->capacity;
+
+  Vector* const v_copy = calloc(1, copy_size);
+
+  if (v_copy == NULL)
+    return NULL;
+  
+  memcpy(v_copy, v, copy_size);
+
+  return v_copy;
+}

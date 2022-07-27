@@ -25,7 +25,6 @@ bool vector_is_full(const Vector *v);
 int vector_resize(Vector** v, size_t new_size);
 
 int vector_push_back(Vector** restrict v, const void* restrict new_elem);
-
 int vector_pop_back(Vector* restrict v, void* restrict popped_elem);
 
 size_t vector_find(const Vector* restrict v, const void* restrict found_elem);
@@ -34,5 +33,7 @@ int vector_at(Vector* restrict v, size_t index, void* restrict at_elem);
 int vector_update(Vector* restrict v, size_t index, const void* restrict new_value);
 int vector_delete(Vector* v, size_t index);
 int vector_insert(Vector** restrict v, size_t index, const void* restrict new_elem);
+
+Vector* vector_copy(const Vector* v);
 
 #endif // !VECTOR_H

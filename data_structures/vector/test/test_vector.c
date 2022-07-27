@@ -22,6 +22,7 @@ static void vector_insert_at_begin_test(void);
 static void vector_insert_at_end_test(void);
 static void vector_insert_after_end_test(void);
 static void vector_insert_to_more_than_half_full_test(void);
+static void vector_copy_test(void);
 
 static void vector_create_test(void)
 {
@@ -1157,6 +1158,72 @@ static void vector_insert_to_more_than_half_full_test(void)
   }
 }
 
+static void vector_copy_test(void)
+{
+  {
+    // Invalid argument/s - invalid vector
+    register const size_t max_size = VECTOR_DEFAULT_CAPACITY_OPTION;
+
+    Vector* v = vector_create(0, max_size);
+    assert(v == NULL);
+    assert(vector_is_empty(v) == false);
+    assert(vector_is_full(v) == false);
+
+    Vector* v_copy = vector_copy(v);
+    assert(v_copy == NULL);
+
+    vector_destroy(v);
+    vector_destroy(v_copy);
+  }
+  {
+    // Valid argument/s
+    register const size_t max_size = 3;
+
+    Vector* v = vector_create(sizeof(int), max_size);
+    assert(v != NULL);
+    assert(vector_is_empty(v) == true);
+    assert(vector_is_full(v) == false);
+  
+    for (size_t i = 1; i <= max_size; i++)
+    {
+      int result = vector_push_back(&v, &(int){i});
+      assert(result == 0);
+      assert(vector_is_empty(v) == false);
+      assert(vector_is_full(v) == (i == max_size));
+
+      assert(vector_get_elem_size(v) == sizeof(int));
+      assert(vector_get_capacity(v) != 2 * max_size);
+      assert(vector_get_capacity(v) == max_size);
+      assert(vector_get_curr_size(v) == i);
+      assert(vector_get_max_size(v) == max_size);
+    }
+
+    Vector* v_copy = vector_copy(v);
+    assert(v_copy != NULL);
+
+    assert(vector_get_elem_size(v) == vector_get_elem_size(v_copy));
+    assert(vector_get_curr_size(v) == vector_get_curr_size(v_copy));
+    assert(vector_get_capacity(v) == vector_get_capacity(v_copy));
+    assert(vector_get_max_size(v) == vector_get_max_size(v_copy));
+
+    int* v_at = malloc(sizeof(*v_at));
+    int* v_copy_at = malloc(sizeof(*v_copy_at));
+    for (size_t i = 0; i < vector_get_curr_size(v); i++)
+    {
+      int v_res = vector_at(v, i, v_at);
+      assert(v_res == 0);
+      int v_copy_res = vector_at(v, i, v_copy_at);
+      assert(v_copy_res == 0);
+      assert(*v_at == *v_copy_at);
+    }
+
+    free(v_at);
+    free(v_copy_at);
+    vector_destroy(v);
+      vector_destroy(v_copy);
+  }
+}
+
 void vector_main_test(void)
 {
   // Create
@@ -1187,4 +1254,6 @@ void vector_main_test(void)
   vector_insert_at_end_test();
   vector_insert_after_end_test();
   vector_insert_to_more_than_half_full_test();
+  // Copy
+  vector_copy_test();
 }
