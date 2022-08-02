@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include "test_utils.h"
 
 static void vector_create_test(void);
 static void vector_resize_test(void);
@@ -1227,33 +1228,33 @@ static void vector_copy_test(void)
 void vector_main_test(void)
 {
   // Create
-  vector_create_test();
+  TIMER_SINGLE_TEST(vector_create_test(), 2);
   // Resize
-  vector_resize_test();
+  TIMER_SINGLE_TEST(vector_resize_test();, 3);
   // Push back
-  vector_push_back_failure_test();
-  vector_push_back_1_test();
-  vector_push_back_to_more_than_half_full_test();
-  vector_push_back_to_full_test();
+  TIMER_SINGLE_TEST(vector_push_back_failure_test();, 2);
+  TIMER_SINGLE_TEST(vector_push_back_1_test();, 1);
+  TIMER_SINGLE_TEST(vector_push_back_to_more_than_half_full_test();, 1);
+  TIMER_SINGLE_TEST(vector_push_back_to_full_test();, 1);
   // Pop back
-  vector_pop_back_failure_test();
-  vector_pop_back_1_test();
-  vector_pop_back_to_empty_test();
+  TIMER_SINGLE_TEST(vector_pop_back_failure_test();, 3);
+  TIMER_SINGLE_TEST(vector_pop_back_1_test();, 1);
+  TIMER_SINGLE_TEST(vector_pop_back_to_empty_test();, 1);
   // Find
-  vector_find_test();
+  TIMER_SINGLE_TEST(vector_find_test();, 4);
   // At
-  vector_at_test();
+  TIMER_SINGLE_TEST(vector_at_test();, 4);
   // Update
-  vector_update_test();
+  TIMER_SINGLE_TEST(vector_update_test();, 4);
   // Delete
-  vector_delete_test();
+  TIMER_SINGLE_TEST(vector_delete_test();, 4);
   // Insert
-  vector_insert_failure_test();
-  vector_insert_1_test();
-  vector_insert_at_begin_test();
-  vector_insert_at_end_test();
-  vector_insert_after_end_test();
-  vector_insert_to_more_than_half_full_test();
+  TIMER_SINGLE_TEST(vector_insert_failure_test();, 3);
+  TIMER_SINGLE_TEST(vector_insert_1_test();, 1);
+  TIMER_SINGLE_TEST(vector_insert_at_begin_test();, 1);
+  TIMER_SINGLE_TEST(vector_insert_at_end_test();, 1);
+  TIMER_SINGLE_TEST(vector_insert_after_end_test();, 1);
+  TIMER_SINGLE_TEST(vector_insert_to_more_than_half_full_test(), 1);
   // Copy
-  vector_copy_test();
+  TIMER_SINGLE_TEST(vector_copy_test(), 2);
 }
