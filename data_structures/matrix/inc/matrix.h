@@ -20,4 +20,6 @@ int matrix_add_rows(Matrix** m, size_t new_rows);
 int matrix_add_columns(Matrix** m, size_t new_columns);
 int matrix_expand(Matrix** m, size_t new_fields);
 
+Matrix* matrix_copy(const Matrix* m);
+
 #endif // !MATRIX_H

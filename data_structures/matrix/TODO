@@ -14,7 +14,7 @@ Implementation:
   - [x] Expand
   - [ ] Delete row
   - [ ] Delete column
-  - [ ] Copy
+  - [x] Copy
   - [ ] Set row
   - [ ] Set column
   - [ ] Macros
@@ -30,7 +30,7 @@ Tests:
   - [x] Expand
   - [ ] Delete row
   - [ ] Delete column
-  - [ ] Copy
+  - [x] Copy
   - [ ] Set row
   - [ ] Set column
   - [ ] Macros
@@ -42,7 +42,7 @@ Documentation:
   - [ ] At
   - [ ] Update symmetric
   - [ ] Add row
-  - [kinda, needs fixes] Add column
+  - [ ] Add column
   - [ ] Expand
   - [ ] Delete row
   - [ ] Delete column

@@ -230,3 +230,20 @@ int matrix_expand(Matrix** m, size_t new_fields)
 
   return matrix_add_columns(m, new_fields);
 }
+
+Matrix* matrix_copy(const Matrix* const m)
+{
+  if (m == NULL)
+    return NULL;
+
+  register const size_t copy_size = sizeof(*m) + m->rows * m->columns * m->elem_size;
+
+  Matrix* const m_copy = calloc(1, copy_size);
+
+  if (m_copy == NULL)
+    return NULL;
+
+  memcpy(m_copy, m, copy_size);
+
+  return m_copy; 
+}

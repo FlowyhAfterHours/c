@@ -12,6 +12,7 @@ static void matrix_add_columns_1_test(void);
 static void matrix_add_columns_multi_test(void);
 static void matrix_add_combined_test(void);
 static void matrix_expand_test(void);
+static void matrix_copy_test(void);
 
 static void matrix_create_test(void)
 {
@@ -621,6 +622,62 @@ static void matrix_expand_test(void)
   }
 }
 
+static void matrix_copy_test(void)
+{
+  {
+    // Invalid argument/s - invalid matrix
+    Matrix* m = matrix_create(0, 0, sizeof(int));
+    assert(m == NULL);
+
+    Matrix* m_copy = matrix_copy(m);
+    assert(m_copy == NULL);
+
+    matrix_destroy(m);
+  }
+  {
+    // Valid argument/s
+    register const size_t rows = 3;
+    register const size_t columns = 3;
+
+    Matrix* m = matrix_create(rows, columns, sizeof(int));
+    assert(m != NULL);
+    assert(matrix_get_rows(m) == rows);
+    assert(matrix_get_columns(m) == columns);
+    assert(matrix_get_elem_size(m) == sizeof(int));
+  
+    for (size_t i = 0; i < matrix_get_rows(m); i++)
+      for (size_t j = 0; j < matrix_get_columns(m); j++)
+      {
+        int result = matrix_update(m, i, j, &(int){i * 10 + j});
+        assert(result == 0);
+      }
+
+    Matrix* m_copy = matrix_copy(m);
+    assert(m_copy != NULL);
+
+    assert(matrix_get_rows(m) == matrix_get_rows(m_copy));
+    assert(matrix_get_columns(m) == matrix_get_columns(m_copy));
+    assert(matrix_get_elem_size(m) == matrix_get_elem_size(m_copy));
+
+    int* m_at = malloc(sizeof(*m_at));
+    int* m_copy_at = malloc(sizeof(*m_copy_at));
+    for (size_t i = 0; i < matrix_get_rows(m); i++)
+      for (size_t j = 0; j < matrix_get_columns(m); j++)
+      {
+        int m_res = matrix_at(m, i, j, m_at);
+        assert(m_res == 0);
+        int m_copy_res = matrix_at(m_copy, i, j, m_copy_at);
+        assert(m_copy_res == 0);
+        assert(*m_at == *m_copy_at);
+      }
+    
+    free(m_at);
+    free(m_copy_at);
+    matrix_destroy(m);
+    matrix_destroy(m_copy);
+  }
+}
+
 void matrix_main_test(void)
 {
   // Create
@@ -641,4 +698,6 @@ void matrix_main_test(void)
   matrix_add_combined_test();
   // Expand
   matrix_expand_test();
+  // Copy
+  matrix_copy_test();
 }
