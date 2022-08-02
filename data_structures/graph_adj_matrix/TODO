@@ -3,13 +3,15 @@ Implementation:
   - [x] Getters
   - [x] Has edge
   - [x] Update edge
-  - [x] Update vertice
+  - [x] Update vertex
   - [x] Update edge symmetric
   - [x] Updates from arrays
-  - [x] Add vertice
+  - [x] Add vertex
   - [x] Add Edge
-  - [ ] Delete vertice (need matrix deletes)
+  - [ ] Delete vertex (need matrix deletes)
   - [ ] Delete edge (need matrix deletes)
+  - [x] Copy
+  - [x] Graph complement
   - [some] Macros
   - [ ] Error codes
   - [ ] Observability
@@ -19,13 +21,15 @@ Tests:
   - [x] Getters
   - [x] Has edge
   - [x] Update edge
-  - [x] Update vertice
+  - [x] Update vertex
   - [x] Update edge symmetric
   - [x] Updates from arrays
-  - [x] Add vertice
+  - [x] Add vertex
   - [x] Add Edge
-  - [ ] Delete vertice (need matrix deletes)
+  - [ ] Delete vertex (need matrix deletes)
   - [ ] Delete edge (need matrix deletes)
+  - [x] Copy
+  - [x] Graph complement  
   - [x] Macros
   - [ ] Error codes
   - [ ] Observability
@@ -35,13 +39,15 @@ Documentation:
   - [ ] Getters
   - [ ] Has edge
   - [ ] Update edge
-  - [ ] Update vertice
+  - [ ] Update vertex
   - [ ] Update edge symmetric
   - [ ] Updates from arrays
-  - [ ] Add vertice
+  - [ ] Add vertex
   - [ ] Add Edge
-  - [ ] Delete vertice (need matrix deletes)
+  - [ ] Delete vertex (need matrix deletes)
   - [ ] Delete edge (need matrix deletes)
+  - [ ] Copy
+  - [ ] Graph complement  
   - [ ] Macros
   - [ ] Error codes
   - [ ] Observability

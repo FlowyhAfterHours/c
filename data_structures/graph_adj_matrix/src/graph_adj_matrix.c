@@ -1,6 +1,7 @@
 #include <graph_adj_matrix.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 struct GraphAdjMatrix
 {
@@ -11,12 +12,12 @@ struct GraphAdjMatrix
 };
 
 #define GRAPH_FIELD_NULL_CHECK(field) \
-  do { \
+  do {                   \
     if ((field) == NULL) \
-    { \
-      graph_destroy(g); \
-      return NULL; \
-    } \
+    {                    \
+      graph_destroy(g);  \
+      return NULL;       \
+    }                    \
   } while(0)
 
 Graph* graph_create(const size_t no_vertices)
@@ -34,11 +35,11 @@ Graph* graph_create(const size_t no_vertices)
                 .no_vertices = no_vertices,
               };
 
-  g->vertices = vector_create(sizeof(Vertice), VECTOR_DEFAULT_CAPACITY_OPTION);
+  g->vertices = vector_create(sizeof(Vertex), VECTOR_DEFAULT_CAPACITY_OPTION);
   GRAPH_FIELD_NULL_CHECK(g->vertices);
 
   for (size_t i = 0; i < no_vertices; i++)
-    vector_push_back(&g->vertices, &(Vertice){.id = i, .weight = GRAPH_WEIGHT_ZERO});
+    vector_push_back(&g->vertices, &(Vertex){.id = i, .weight = GRAPH_WEIGHT_ZERO});
 
   g->adjacency = matrix_create(no_vertices, no_vertices, sizeof(graph_weight_t));
   GRAPH_FIELD_NULL_CHECK(g->adjacency);
@@ -74,7 +75,7 @@ size_t graph_get_no_edges(const Graph* const g)
   return g->no_edges;
 }
 
-graph_weight_t graph_get_vertice_weight(const Graph* const g, const size_t id)
+graph_weight_t graph_get_vertex_weight(const Graph* const g, const size_t id)
 {
   if (g == NULL)
     return GRAPH_WEIGHT_ZERO;
@@ -82,19 +83,19 @@ graph_weight_t graph_get_vertice_weight(const Graph* const g, const size_t id)
   if (id >= g->no_vertices)
     return GRAPH_WEIGHT_ZERO;
 
-  Vertice* const vertice = malloc(sizeof(*vertice));
+  Vertex* const vertex = malloc(sizeof(*vertex));
 
-  if (vertice == NULL)
+  if (vertex == NULL)
     return GRAPH_WEIGHT_ZERO;
 
-  register const int vector_at_result = vector_at(g->vertices, id, vertice);
+  register const int vector_at_result = vector_at(g->vertices, id, vertex);
 
   if (vector_at_result != 0)
     return GRAPH_WEIGHT_ZERO;
 
-  register const graph_weight_t result = vertice->weight;
+  register const graph_weight_t result = vertex->weight;
 
-  free(vertice);
+  free(vertex);
 
   return result;
 }
@@ -149,7 +150,7 @@ bool graph_has_edge(const Graph* const g, const size_t src, const size_t dest)
   return result;
 }
 
-int graph_update_vertice(Graph* const g, const size_t id, const graph_weight_t new_weight)
+int graph_update_vertex(Graph* const g, const size_t id, const graph_weight_t new_weight)
 {
   if (g == NULL)
     return -1;
@@ -157,7 +158,7 @@ int graph_update_vertice(Graph* const g, const size_t id, const graph_weight_t n
   if (id >= g->no_vertices)
     return -1;
 
-  register const int vector_update_result = vector_update(g->vertices, id, &(Vertice){.id = id, .weight = new_weight});
+  register const int vector_update_result = vector_update(g->vertices, id, &(Vertex){.id = id, .weight = new_weight});
 
   if (vector_update_result != 0)
     return 1;
@@ -170,7 +171,7 @@ int graph_update_edge(Graph* const g, const size_t src, const size_t dest, const
   if (g == NULL)
     return -1;
   
-  if (src >= g->no_vertices || dest >= g->no_vertices || new_weight == GRAPH_WEIGHT_ZERO)
+  if (src >= g->no_vertices || dest >= g->no_vertices)
     return -1;
 
   register const int matrix_update_result = matrix_update(g->adjacency, src, dest, &(graph_weight_t){new_weight});
@@ -197,7 +198,7 @@ int graph_update_edge_symmetric(Graph* const g, const size_t src, const size_t d
   return 0;
 }
 
-int graph_update_vertices_from_array(Graph* g, const Vertice vertices[], size_t no_veritces)
+int graph_update_vertices_from_array(Graph* g, const Vertex vertices[], size_t no_veritces)
 {
   if (g == NULL || vertices == NULL)
     return -1;
@@ -207,7 +208,7 @@ int graph_update_vertices_from_array(Graph* g, const Vertice vertices[], size_t 
 
   for (size_t i = 0; i < no_veritces; i++)
   {
-    int result = graph_update_vertice(g, vertices[i].id, vertices[i].weight);
+    int result = graph_update_vertex(g, vertices[i].id, vertices[i].weight);
     if (result != 0)
       return -i - 2; // (res + 1) * -1 should give an index
   }
@@ -233,15 +234,15 @@ int graph_update_edges_from_array(Graph* g, const Edge edges[], size_t no_edges)
   return 0;
 }
 
-int graph_add_vertice(Graph *g, graph_weight_t weight)
+int graph_add_vertex(Graph *g, graph_weight_t weight)
 {
   if (g == NULL)
     return -1;
 
-  // Add new vertice to the vector
+  // Add new vertex to the vector
 
   int vector_push_back_result = 
-    vector_push_back(&g->vertices, &(Vertice){
+    vector_push_back(&g->vertices, &(Vertex){
                                               .id = g->no_vertices, 
                                               .weight = GRAPH_WEIGHT(weight)
                                             });
@@ -263,6 +264,9 @@ int graph_add_vertice(Graph *g, graph_weight_t weight)
 
 int graph_add_edge(Graph* g, size_t src, size_t dest, graph_weight_t new_weight)
 {
+  if (new_weight == 0)
+    return -1;
+
   int result = graph_update_edge(g, src, dest, new_weight);
 
   if (result != 0)
@@ -293,7 +297,7 @@ Vector* graph_copy_vertices(const Graph* g)
   return vector_copy(g->vertices);
 }
 
-Vector* graph_vertice_neighbours(const Graph* g, size_t id)
+Vector* graph_vertex_neighbours(const Graph* g, size_t id)
 {
   if (g == NULL)
     return NULL;
@@ -325,4 +329,76 @@ Vector* graph_vertice_neighbours(const Graph* g, size_t id)
   }
 
   return neighbours;
+}
+
+Graph* graph_copy(const Graph* const g)
+{
+  if (g == NULL)
+    return NULL;
+
+  Graph* const g_copy = calloc(1, sizeof(*g));
+
+  if (g_copy == NULL)
+    return NULL;
+
+  *g_copy = (Graph) {
+                      .no_edges = g->no_edges,
+                      .no_vertices = g->no_vertices
+                    };
+  
+  g_copy->vertices = vector_copy(g->vertices);
+
+  if (g_copy->vertices == NULL)
+  {
+    graph_destroy(g_copy);
+    return NULL;
+  }
+
+  g_copy->adjacency = matrix_copy(g->adjacency);
+
+  if(g_copy->adjacency == NULL)
+  {
+    graph_destroy(g_copy);
+    return NULL;
+  }
+
+  return g_copy;
+}
+
+Graph* graph_complement(const Graph* g)
+{
+  if (g == NULL)
+    return NULL;
+
+  Graph* const g_copy = graph_copy(g);
+
+  if (g_copy == NULL)
+    return NULL;
+
+  // Update edges
+  // If edge weight does not equal GRAPH_WEIGHT_ZERO, make it GRAPH_WEIGHT_ZERO
+  // Else make it GRAPH_WEIGHT(1)
+  // This method does not preserve original edge weights, it only returns complementary edges
+
+  g_copy->no_edges = g->no_vertices * (g->no_vertices - 1) - g->no_edges;
+
+  for (size_t i = 0; i < graph_get_no_vertices(g_copy); i++)
+    for (size_t j = 0; j < graph_get_no_vertices(g_copy); j++)
+    {
+      if (i == j)
+        continue;
+      
+      graph_weight_t update_weight = GRAPH_WEIGHT(1);
+      if (graph_get_edge_weight(g, i, j) != GRAPH_WEIGHT_ZERO)
+        update_weight = GRAPH_WEIGHT_ZERO;
+
+      int result = graph_update_edge(g_copy, i, j, update_weight);
+      if (result != 0)
+      {
+        graph_destroy(g_copy);
+        return NULL;
+      }
+    }
+
+  return g_copy;
 }

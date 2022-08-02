@@ -13,11 +13,11 @@
 
 typedef struct GraphAdjMatrix Graph;
 
-typedef struct Vertice
+typedef struct Vertex
 {
   graph_weight_t weight;
   size_t id;
-} Vertice;
+} Vertex;
 
 typedef struct Edge
 {
@@ -31,27 +31,30 @@ void graph_destroy(Graph* g);
 
 size_t graph_get_no_vertices(const Graph* g);
 size_t graph_get_no_edges(const Graph* g);
-graph_weight_t graph_get_vertice_weight(const Graph* g, size_t id);
+graph_weight_t graph_get_vertex_weight(const Graph* g, size_t id);
 graph_weight_t graph_get_edge_weight(const Graph* g, size_t src, size_t dest);
 
 bool graph_has_edge(const Graph* g, size_t src, size_t dest);
 
-int graph_update_vertice(Graph* g, size_t id, graph_weight_t new_weight);
+int graph_update_vertex(Graph* g, size_t id, graph_weight_t new_weight);
 int graph_update_edge(Graph* g, size_t src, size_t dest, graph_weight_t new_weight);
 int graph_update_edge_symmetric(Graph* const g, const size_t src, const size_t dest, const graph_weight_t new_weight);
 
 #define GRAPH_ARRAY_UPDATE_ERROR_INDEX(index) \
   ((index) + 2) * -1
 
-int graph_update_vertices_from_array(Graph* g, const Vertice vertices[], size_t no_veritces);
+int graph_update_vertices_from_array(Graph* g, const Vertex vertices[], size_t no_veritces);
 int graph_update_edges_from_array(Graph* g, const Edge edges[], size_t no_edges);
 
-int graph_add_vertice(Graph *g, graph_weight_t weight);
+int graph_add_vertex(Graph *g, graph_weight_t weight);
 
 int graph_add_edge(Graph* g, size_t src, size_t dest, graph_weight_t new_weight);
 int graph_add_edge_symmetric(Graph* const g, const size_t src, const size_t dest, const graph_weight_t new_weight);
 
 Vector* graph_copy_vertices(const Graph* g);
-Vector* graph_vertice_neighbours(const Graph* g, size_t id);
+Vector* graph_vertex_neighbours(const Graph* g, size_t id);
+
+Graph* graph_copy(const Graph* g);
+Graph* graph_complement(const Graph* g);
 
 #endif // !GRAPH_ADJ_MATRIX_H
