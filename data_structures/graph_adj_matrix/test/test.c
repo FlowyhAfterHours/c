@@ -1,3 +1,4 @@
+#include "test_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -7,10 +8,10 @@ extern void graph_main_test(void);
 
 int main(void)
 {
-  vector_main_test();
-  matrix_main_test();
-  graph_main_test();
+  TIMER_MULTIPLE_TESTS(vector_main_test());
+  TIMER_MULTIPLE_TESTS(matrix_main_test());
+  TIMER_MULTIPLE_TESTS(graph_main_test());
   setbuf(stdout, NULL);
-  printf("Tests passed!\n");
+  printf("All tests passed!\n");
   return 0;
 }

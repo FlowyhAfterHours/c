@@ -1,4 +1,5 @@
 #include <graph_adj_matrix.h>
+#include "test_utils.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -888,28 +889,28 @@ static void graph_complement_test(void)
 void graph_main_test(void)
 {
   // Create
-  graph_create_test();
+  TIMER_SINGLE_TEST(graph_create_test(), 2);
   // Update vertex
-  graph_update_vertex_1_test();
-  graph_update_vertex_multi_test();
+  TIMER_SINGLE_TEST(graph_update_vertex_1_test(), 3);
+  TIMER_SINGLE_TEST(graph_update_vertex_multi_test(), 1);
   // Update edge
-  graph_update_edge_1_test();
-  graph_update_edge_multi_test();
+  TIMER_SINGLE_TEST(graph_update_edge_1_test(), 3);
+  TIMER_SINGLE_TEST(graph_update_edge_multi_test(), 1);
   // Update edge symmetric
-  graph_update_edge_symmetric_1_test();
-  graph_update_edge_symmetric_multi_test();
+  TIMER_SINGLE_TEST(graph_update_edge_symmetric_1_test(), 4);
+  TIMER_SINGLE_TEST(graph_update_edge_symmetric_multi_test(), 1);
   // Update from arrays
-  graph_update_vertices_from_array_test();
-  graph_update_edges_from_array_test();
+  TIMER_SINGLE_TEST(graph_update_vertices_from_array_test(), 5);
+  TIMER_SINGLE_TEST(graph_update_edges_from_array_test(), 5);
   // Add vertex/add edge
-  graph_add_vertice_test();
-  graph_add_edge_test();
+  TIMER_SINGLE_TEST(graph_add_vertice_test(), 2);
+  TIMER_SINGLE_TEST(graph_add_edge_test(), 3);
   // Copy vertices
-  graph_copy_vertices_test();
+  TIMER_SINGLE_TEST(graph_copy_vertices_test(), 2);
   // Get vertex neighbours
-  graph_vertex_neighbours_test();
+  TIMER_SINGLE_TEST(graph_vertex_neighbours_test(), 3);
   // Copy
-  graph_copy_test();
+  TIMER_SINGLE_TEST(graph_copy_test(), 2);
   // Complement
-  graph_complement_test();
+  TIMER_SINGLE_TEST(graph_complement_test(), 4);
 }
