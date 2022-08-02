@@ -1,3 +1,4 @@
+#include "test_utils.h"
 #include <matrix.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -681,23 +682,23 @@ static void matrix_copy_test(void)
 void matrix_main_test(void)
 {
   // Create
-  matrix_create_test();
+  TIMER_SINGLE_TEST(matrix_create_test(), 4);
   // Update
-  matrix_update_test();
+  TIMER_SINGLE_TEST(matrix_update_test(), 4);
   // At
-  matrix_at_test();
+  TIMER_SINGLE_TEST(matrix_at_test(), 4);
   // Update symmetric macro
-  matrix_update_symmetric_test();
+  TIMER_SINGLE_TEST(matrix_update_symmetric_test(), 4);
   // Add rows
-  matrix_add_rows_1_test();
-  matrix_add_rows_multi_test();
+  TIMER_SINGLE_TEST(matrix_add_rows_1_test(), 3);
+  TIMER_SINGLE_TEST(matrix_add_rows_multi_test(), 1);
   // Add columns
-  matrix_add_columns_1_test();
-  matrix_add_columns_multi_test();
+  TIMER_SINGLE_TEST(matrix_add_columns_1_test(), 3);
+  TIMER_SINGLE_TEST(matrix_add_columns_multi_test(), 1);
   // Add rows/columns combined
-  matrix_add_combined_test();
+  TIMER_SINGLE_TEST(matrix_add_combined_test(), 1);
   // Expand
-  matrix_expand_test();
+  TIMER_SINGLE_TEST(matrix_expand_test(), 3);
   // Copy
-  matrix_copy_test();
+  TIMER_SINGLE_TEST(matrix_copy_test(), 2);
 }
